@@ -1,0 +1,22 @@
+{
+    "schema_version":
+    {
+        "major": "1",
+        "minor": "2",
+        "patch": "0"
+    },
+    "generation":
+    {
+        "this_file": "\/home\/centos\/src\/project_data\/aws-fpga\/Vitis\/examples\/xilinx_2021.2\/mm2\/xrt.run_summary",
+        "source": "vp",
+        "PID": "5592",
+        "timestamp": "1678957680690"
+    },
+    "files":
+    [
+        {
+            "name": "summary.csv",
+            "type": "PROFILE_SUMMARY"
+        }
+    ]
+}
