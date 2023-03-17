@@ -1,0 +1,39 @@
+Vitis HLS
+m5
+sudo dcv create-session --type virtual --user centos centos --owner centos
+sudo dcv list-sessions
+
+m5-DCV
+cd $AWS_FPGA_REPO_DIR; source vitis_setup.sh; source /opt/Xilinx/Vitis_HLS/2021.2/settings64.sh; vitis_hls;
+
+
+Vitis
+m5
+cd $AWS_FPGA_REPO_DIR; source vitis_setup.sh; cd Vitis/examples/xilinx_2021.2/;
+cd $AWS_FPGA_REPO_DIR; source vitis_setup.sh; source vitis_runtime_setup.sh; cd Vitis/examples/xilinx_2021.2/mm2/;
+
+make TARGET=sw_emu DEVICE=$AWS_PLATFORM all
+make run TARGET=hw_emu DEVICE=$AWS_PLATFORM all
+make TARGET=hw DEVICE=$AWS_PLATFORM all
+
+
+$VITIS_DIR/tools/create_vitis_afi.sh -xclbin=mm.xclbin -o=host_mm -s3_bucket=kcs-bucket -s3_dcp_key=dcp -s3_logs_key=logs
+
+afi-0845589843017a10a
+
+aws ec2 describe-fpga-images --fpga-image-ids afi-0845589843017a10a
+
+aws s3 cp host_mm.awsxclbin s3://kcs-bucket
+cd ../
+aws s3 cp host_mm s3://kcs-bucket
+and io files
+
+f1
+cd $AWS_FPGA_REPO_DIR; source vitis_setup.sh; source vitis_runtime_setup.sh;
+
+aws s3 cp s3://kcs-bucket/host_mm.awsxclbin . ; aws s3 cp s3://kcs-bucket/host_mm . ; chmod +x host_mm
+
+./fir_onboard vadd.awsxclbin
+
+https://repost.aws/questions/QUqdvzbaDLQcuqmHheNvd86A
+aws ec2 copy-fpga-image --name host_mm --source-fpga-image-id afi-0845589843017a10a --source-region ap-northeast-2 --region us-west-2
